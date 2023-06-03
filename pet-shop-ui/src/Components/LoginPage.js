@@ -1,15 +1,31 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./User Components/LoginPage.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log("Login form submitted!");
+
+    try {
+      // Make the POST request to your API
+      const response = await axios.post(
+        "https://localhost:7020/api/Auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      // Process the response from the API
+      console.log("Login Success"); // Log or handle the response as needed
+    } catch (error) {
+      // Handle any error that occurred during the request
+      console.error(error);
+    }
   };
 
   return (
