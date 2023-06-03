@@ -21,7 +21,7 @@ const LoginPage = () => {
       );
 
       // Process the response from the API
-      console.log("Login Success"); // Log or handle the response as needed
+      console.log("Login Success", response); // Log or handle the response as needed
     } catch (error) {
       // Handle any error that occurred during the request
       console.error(error);
@@ -57,9 +57,9 @@ const LoginPage = () => {
           </div>
           <div className="d-grid gap-2 mt-3">
             <button
-              type="submit"
+              type="button"
               className="btn btn-primary"
-              onSubmit={handleSubmit}
+              onClick={handleSubmit}
             >
               Submit
             </button>

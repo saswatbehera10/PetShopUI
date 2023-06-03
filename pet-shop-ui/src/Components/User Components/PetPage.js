@@ -11,6 +11,7 @@ const PetPage = () => {
   const fetchPets = async () => {
     try {
       const response = await axios.get("https://localhost:7020/api/Pets");
+      console.log(response);
       setPets(response.data);
     } catch (error) {
       console.error(error);
@@ -22,16 +23,16 @@ const PetPage = () => {
       <h2>Pets available for adoption</h2>
       <div className="row">
         {pets.map((pet) => (
-          <div key={pet.PetID} className="col-md-4 mb-3">
+          <div key={pet.petID} className="col-md-4 mb-3">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">{pet.Name}</h5>
+                <h5 className="card-title">{pet.name}</h5>
                 <p className="card-text">
-                  Species: {pet.Species}
+                  Species: {pet.species}
                   <br />
-                  Age: {pet.Age}
+                  Age: {pet.age}
                   <br />
-                  Price: {pet.Price}
+                  Price: {pet.price}
                 </p>
               </div>
             </div>
