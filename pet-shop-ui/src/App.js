@@ -4,6 +4,7 @@ import RegistrationForm from "./Components/RegistrationPage";
 import LoginPage from "./Components/LoginPage";
 import Navbar from "./Components/User Components/Navbar";
 import HomePage from "./Components/User Components/HomePage";
+import PetPage from "./Components/User Components/PetPage";
 import "./Components/User Components/LoginPage.css";
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
       <div>
         <Navbar />
         <HomePage />
+        <PetPage />
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
