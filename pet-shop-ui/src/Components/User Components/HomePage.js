@@ -1,4 +1,8 @@
 import React from "react";
+import Image from "./Images/Image.png";
+import Image1 from "./Images/Image1.png";
+import Image2 from "./Images/Image2.png";
+import Image3 from "./Images/Image3.png";
 
 const HomePage = () => {
   return (
@@ -11,30 +15,38 @@ const HomePage = () => {
         <div className="carousel-inner">
           <div className="carousel-item active">
             <img
-              src="https://placekitten.com/800/300" // Replace with actual image source
+              src={Image} // Replace with actual image source
               className="d-block w-100"
               alt="Pet 1"
+              width="800"
+              height="550"
             />
           </div>
           <div className="carousel-item">
             <img
-              src="https://placekitten.com/800/301" // Replace with actual image source
+              src={Image1} // Replace with actual image source
               className="d-block w-100"
               alt="Pet 2"
+              width="800"
+              height="550"
             />
           </div>
           <div className="carousel-item">
             <img
-              src="https://placekitten.com/800/302" // Replace with actual image source
+              src={Image2} // Replace with actual image source
               className="d-block w-100"
               alt="Pet 3"
+              width="800"
+              height="550"
             />
           </div>
           <div className="carousel-item">
             <img
-              src="https://placekitten.com/800/303" // Replace with actual image source
+              src={Image3} // Replace with actual image source
               className="d-block w-100"
               alt="Pet 4"
+              width="800"
+              height="550"
             />
           </div>
         </div>
