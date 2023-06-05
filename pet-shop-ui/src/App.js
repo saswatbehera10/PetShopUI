@@ -6,6 +6,7 @@ import Navbar from "./Components/User Components/Navbar";
 import HomePage from "./Components/User Components/HomePage";
 import PetPage from "./Components/User Components/PetPage";
 import "./Components/User Components/LoginPage.css";
+import AdminHomePage from "./Components/Admin Components/AdminHomePage";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Navbar />
         <HomePage />
         <PetPage />
+        <AdminHomePage />
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />

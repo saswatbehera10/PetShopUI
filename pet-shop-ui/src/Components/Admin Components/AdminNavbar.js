@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import DogLogo from "./Images/DogLogo.png";
 
-const Navbar = () => {
+const AdminNavbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-light" data-bs-theme="light">
       <div className="container-fluid">
@@ -36,7 +36,12 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
-                Cart
+                Orders
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Pets
               </a>
             </li>
           </ul>
@@ -50,4 +55,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default AdminNavbar;
