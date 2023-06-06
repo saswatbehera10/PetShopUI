@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DogLogo from "./Images/DogLogo.png";
+import DogLogo from "../User Components/Images/DogLogo.png";
+import "./Navbar.css";
 
 const AdminNavbar = () => {
   return (

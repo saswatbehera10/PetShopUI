@@ -8,7 +8,7 @@ const RegistrationForm = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState()
+  const [roleID, setRole] = useState()
 
   const handleSubmit = async (e) => { 
     e.preventDefault(); 
@@ -19,7 +19,7 @@ const RegistrationForm = () => {
         password: password, 
         email: email, 
         phone: phone, 
-        role: role,
+        roleID: roleID,
       }; 
       // Make the POST request using Axios   
       const response = await axios.post("https://localhost:7020/api/Auth/Registration", userData); 
@@ -95,9 +95,9 @@ const RegistrationForm = () => {
             <label className="mr-3"> 
               <input 
                 type="radio" 
-                name="role" 
-                value={1} 
-                checked={role === 1} 
+                name="roleID" 
+                value={"1"} 
+                checked={roleID === "1"} 
                 onChange={(e) => setRole(e.target.value)} 
               /> 
               Admin 
@@ -106,9 +106,9 @@ const RegistrationForm = () => {
             <label> 
               <input 
                 type="radio" 
-                name="role" 
-                value={2} 
-                checked={role === 2} 
+                name="roleID" 
+                value={"2"} 
+                checked={roleID === "2"} 
                 onChange={(e) => setRole(e.target.value)} 
               />
               Customer 
