@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./User Components/LoginPage.css";
 import axios from "axios";
 
-const RegistrationForm = () => {
+const RegistrationPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -130,4 +130,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default RegistrationPage;

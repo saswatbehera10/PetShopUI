@@ -6,15 +6,15 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-light" data-bs-theme="light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+      <Link className="navbar-brand" to="/">
           <img
-            src={DogLogo} // Replace with the actual path to your logo image
+            src={DogLogo}
             alt="Company Logo"
             className="logo-img"
             style={{ maxHeight: "30px", marginRight: "10px" }}
           />
           Fluffy Furr & Co.
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -29,15 +29,16 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarColor03">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <a className="nav-link active" href="#">
+              <Link to="/home" className="nav-link active">
                 Home
                 <span className="visually-hidden">(current)</span>
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link to="/cart" className="nav-link active">
                 Cart
-              </a>
+                <span className="visually-hidden">(current)</span>
+              </Link>
             </li>
           </ul>
 
