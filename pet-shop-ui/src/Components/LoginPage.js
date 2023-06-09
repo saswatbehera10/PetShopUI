@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./User Components/LoginPage.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const history = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +23,14 @@ const LoginPage = () => {
 
       // Process the response from the API
       console.log("Login Success", response); // Log or handle the response as needed
+
+      const roleID = response.data.role;
+
+      if (roleID === 1) {
+        history("/admin/home");
+      } else {
+        history("/home");
+      }
     } catch (error) {
       // Handle any error that occurred during the request
       console.error(error);

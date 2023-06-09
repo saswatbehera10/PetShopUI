@@ -1,27 +1,26 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import Navbar from "./Navbar";
+import axios from "axios";
 
-const CartPage = () => {
-  const [pets, setPets] = useState([]);
-  const [orderID, setOrderID] = useState(null);
-
+const CartPage = ({ cartItems, removeFromCart }) => {
   const handleCheckout = async () => {
-    // Perform the checkout process here
-    // You can update the pets array and generate an order number
-
-    // Assuming the checkout is successful
+    // Handle checkout logic
     try {
-      const response = await axios.post(
-        "https://localhost:7020/api/Orders",
-        pets
-      );
-      const { orderID } = response.data;
-      setPets([]);
-      setOrderID(orderID);
+      const order ={
+        orderDate: new Date().toISOString,
+        petID: cartItems.map((pet) => pet.petID),
+        userID: 3,
+      }
+
+      const response = await axios.post("https://localhost:7020/api/Orders", order)
+      console.log("Order Created: ", response.data);
+      
     } catch (error) {
-      console.error(error);
+        console.error("Error creating order: ", error)
     }
+
+
+    
   };
 
   return (
@@ -29,29 +28,22 @@ const CartPage = () => {
       <Navbar />
       <div className="container mt-5">
         <h2>Cart</h2>
-        {pets.length === 0 ? (
-          <p>No pets in the cart.</p>
+        {cartItems.length === 0 ? (
+          <p>Your cart is empty.</p>
         ) : (
-          <>
-            <h4>Pets to Adopt:</h4>
-            <ul>
-              {pets.map((pet) => (
-                <li key={pet.petID}>{pet.name}</li>
-              ))}
-            </ul>
+          <div>
+            {cartItems.map((pet) => (
+              <div key={pet.petID}>
+                <h5>{pet.name}</h5>
+                <p>Species: {pet.species}</p>
+                <p>Age: {pet.age} Years</p>
+                <p>Price: ${pet.price}</p>
+                <hr />
+              </div>
+            ))}
             <button className="btn btn-primary" onClick={handleCheckout}>
               Checkout
             </button>
-          </>
-        )}
-        {orderID && (
-          <div className="mt-3">
-            <h5>Sit back and relax!</h5>
-            <p>
-              Your pet is on its way. You'll soon receive an email. Please note
-              down your order number for future reference:
-            </p>
-            <h4>{orderID}</h4>
           </div>
         )}
       </div>

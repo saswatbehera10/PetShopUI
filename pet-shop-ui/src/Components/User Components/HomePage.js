@@ -1,12 +1,14 @@
-import React from "react";
-import PetPage from "./PetPage"
+import React, { useState } from "react";
+import PetPage from "./PetPage";
 import Image from "./Images/Image.png";
 import Image1 from "./Images/Image1.png";
 import Image2 from "./Images/Image2.png";
 import Image3 from "./Images/Image3.png";
 import Navbar from "./Navbar";
+import CartPage from "./CartPage";
+import { Link } from "react-router-dom";
 
-const HomePage = () => {
+const HomePage = ({ addToCart }) => {
   return (
     <>
       <Navbar />
@@ -90,7 +92,7 @@ const HomePage = () => {
             <footer className="blockquote-footer">Fluffy Furr & Co.</footer>
           </blockquote>
         </div>
-        <PetPage />
+        <PetPage addToCart={addToCart} />
       </div>
     </>
   );

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import CartPage from "./CartPage";
 
-const PetPage = () => {
+const PetPage = ({addToCart}) => {
   const [pets, setPets] = useState([]);
 
   useEffect(() => {
@@ -18,9 +19,9 @@ const PetPage = () => {
     }
   };
 
-  const handleAddToCart = (petID) => {
-    console.log(`Pet with ID ${petID} added to cart.`);
-  };
+  //const handleAddToCart = (petID) => {
+    //console.log(`Pet with ID ${petID} added to cart.`);
+  //};
 
   return (
     <>
@@ -32,6 +33,8 @@ const PetPage = () => {
             <div key={pet.petID} className="col-md-4 mb-3">
               <div className="card">
                 <div className="card-body">
+                  <img src={pet.imgUrl} alt="pet" style={{height:"200px", width:"200px", justifyContent: "center"}} />
+                  <br />
                   <h5 className="card-title">{pet.name}</h5>
                   <p className="card-text">
                     Species: {pet.species}
@@ -42,7 +45,7 @@ const PetPage = () => {
                   </p>
                   <button
                     className="btn btn-primary"
-                    onClick={() => handleAddToCart(pet.petID)}
+                    onClick={() => addToCart(pet)}
                   >
                     Adopt
                   </button>

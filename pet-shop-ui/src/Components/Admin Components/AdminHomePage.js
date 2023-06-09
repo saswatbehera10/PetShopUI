@@ -8,6 +8,7 @@ const AdminHomePage = () => {
   const [species, setSpecies] = useState("");
   const [age, setAge] = useState("");
   const [price, setPrice] = useState("");
+  const [url, setUrl] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +32,7 @@ const AdminHomePage = () => {
       setSpecies("");
       setAge("");
       setPrice("");
+      setUrl("");
     } catch (error) {
       // Handle any errors that occurred during the POST request
       console.error("Error adding pet:", error);
@@ -82,6 +84,16 @@ const AdminHomePage = () => {
                 placeholder="Enter price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+            <div className="form-group mt-3">
+              <label>url:</label>
+              <input
+                type="text"
+                className="form-control mt-1"
+                placeholder="Enter Url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
               />
             </div>
             <div className="d-grid gap-2 mt-3">
