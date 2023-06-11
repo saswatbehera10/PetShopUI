@@ -7,6 +7,7 @@ import Image3 from "./Images/Image3.png";
 import Navbar from "./Navbar";
 import CartPage from "./CartPage";
 import { Link } from "react-router-dom";
+import "./HomePage.css";
 
 const HomePage = ({ addToCart }) => {
   return (

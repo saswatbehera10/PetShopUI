@@ -1,9 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DogLogo from "../User Components/Images/DogLogo.png";
 import "./Navbar.css";
 
 export const AdminNavbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear the token, expiration, and role from local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiration");
+    localStorage.removeItem("role");
+
+    // Redirect to the login page
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-light" data-bs-theme="light">
       <div className="container-fluid">
@@ -48,14 +60,9 @@ export const AdminNavbar = () => {
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link to="/register" className="nav-link">
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/login" className="nav-link">
-                Login
-              </Link>
+              <button className="nav-link logout-button" onClick={handleLogout}>
+                Log Out
+              </button>
             </li>
           </ul>
         </div>

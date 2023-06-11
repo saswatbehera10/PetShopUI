@@ -1,84 +1,135 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./User Components/LoginPage.css";
+import backgroundImage from "./User Components/Images/background.jpg";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useNavigate();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     try {
-      // Make the POST request to your API
       const response = await axios.post(
-        "https://localhost:7020/api/Auth/login",
+        "https://localhost:7020/api/auth/login",
         {
           email,
           password,
         }
       );
 
-      // Process the response from the API
-      console.log("Login Success", response); // Log or handle the response as needed
+      const { token, expiration, roleId } = response.data;
 
-      const roleID = response.data.role;
+      // Store the token, expiration, and role ID in local storage
+      localStorage.setItem("token", token);
+      localStorage.setItem("expiration", expiration);
+      localStorage.setItem("roleId", roleId);
 
-      if (roleID === 1) {
-        history("/admin/home");
+      // Redirect based on role ID
+      if (roleId === 1) {
+        navigate("/admin/home");
+      } else if (roleId === 2) {
+        navigate("/home");
       } else {
-        history("/home");
+        // Handle unknown role ID
+        navigate("/login"); // Redirect to login page
       }
     } catch (error) {
-      // Handle any error that occurred during the request
-      console.error(error);
+      // Handle login error
+      console.log("Login failed", error);
     }
   };
 
+  const checkTokenExpiration = () => {
+    const expiration = localStorage.getItem("expiration");
+
+    if (expiration) {
+      const now = new Date();
+      const expirationDate = new Date(expiration);
+
+      if (now > expirationDate) {
+        // Token has expired, perform logout or refresh token logic
+        // ...
+        // For example, you can clear the token, expiration, and role ID from local storage
+        localStorage.removeItem("token");
+        localStorage.removeItem("expiration");
+        localStorage.removeItem("roleId");
+        navigate("/login"); // Redirect to login page
+      } else {
+        // Token is still valid
+        const roleId = localStorage.getItem("roleId");
+
+        // Redirect based on role ID
+        if (roleId === 1) {
+          navigate("/admin/home");
+        } else if (roleId === 2) {
+          navigate("/user/home");
+        } else {
+          // Handle unknown role ID
+          navigate("/login"); // Redirect to login page
+        }
+      }
+    } else {
+      // No token or expiration found, user is not logged in
+      navigate("/login"); // Redirect to login page
+    }
+  };
+
+  // Check token expiration on component mount
+  useEffect(() => {
+    checkTokenExpiration();
+  }, []);
+
   return (
-    <div className="Auth-form-container">
-      <form className="Auth-form">
-        <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Sign In</h3>
-          <div className="form-group mt-3">
-            <label>Email address</label>
-            <input
-              type="email"
-              className="form-control mt-1"
-              placeholder="Enter email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+    <>
+      <div className="Auth-form-container">
+        <h1
+          className="Auth-form-title"
+          style={{ fontSize: "80px", color: "#ffffff" }}
+        >
+          Hi, there!
+        </h1>{" "}
+        <form className="Auth-form">
+          <div className="Auth-form-content">
+            <h3 className="Auth-form-title">Sign In</h3>
+            <div className="form-group mt-3">
+              <label>Email address</label>
+              <input
+                type="email"
+                className="form-control mt-1"
+                placeholder="Enter email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group mt-3">
+              <label>Password</label>
+              <input
+                type="password"
+                className="form-control mt-1"
+                placeholder="Enter password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="d-grid gap-2 mt-3">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleLogin}
+              >
+                Submit
+              </button>
+            </div>
+            <p className="not-a-member-signup text-right mt-2">
+              Not a member? <Link to="/register">Register Here.</Link>
+            </p>
           </div>
-          <div className="form-group mt-3">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control mt-1"
-              placeholder="Enter password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="d-grid gap-2 mt-3">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
-          <p className="not-a-member-signup text-right mt-2">
-            Not a member? <Link to="/register">Register Here.</Link>
-          </p>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

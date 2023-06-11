@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../User Components/LoginPage.css";
 import { AdminNavbar } from "./AdminNavbar";
@@ -9,6 +9,24 @@ const AdminHomePage = () => {
   const [age, setAge] = useState("");
   const [price, setPrice] = useState("");
   const [url, setUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    console.log("Image URL:", imageUrl);
+  }, [imageUrl]);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const imageDataUrl = reader.result;
+      setImageUrl(imageDataUrl);
+      setUrl(imageDataUrl);
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +37,7 @@ const AdminHomePage = () => {
         species: species,
         age: age,
         price: price,
+        imgUrl: url,
       };
       // Make the POST request using Axios
       const response = await axios.post(
@@ -87,13 +106,19 @@ const AdminHomePage = () => {
               />
             </div>
             <div className="form-group mt-3">
-              <label>url:</label>
-              <input
+              <label>Image:</label>
+              {/* <input
                 type="text"
                 className="form-control mt-1"
                 placeholder="Enter Url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
+              /> */}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="form-control mt-1"
               />
             </div>
             <div className="d-grid gap-2 mt-3">
