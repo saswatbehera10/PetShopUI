@@ -18,11 +18,13 @@ const LoginPage = () => {
         }
       );
 
-      const { token, expiration, roleId } = response.data;
+      console.log(response.data);
+
+      const { token, roleId } = response.data;
 
       // Store the token, expiration, and role ID in local storage
       localStorage.setItem("token", token);
-      localStorage.setItem("expiration", expiration);
+      //localStorage.setItem("expiration", expiration);
       localStorage.setItem("roleId", roleId);
 
       // Redirect based on role ID
