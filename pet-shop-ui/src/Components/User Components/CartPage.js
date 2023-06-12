@@ -1,26 +1,34 @@
 import React from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const CartPage = ({ cartItems, removeFromCart }) => {
   const handleCheckout = async () => {
     // Handle checkout logic
     try {
-      const order ={
+      const order = {
         orderDate: new Date().toISOString,
         petID: cartItems.map((pet) => pet.petID),
         userID: 3,
-      }
+      };
 
-      const response = await axios.post("https://localhost:7020/api/Orders", order)
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "https://localhost:7020/api/Orders",
+        order,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("Order Created: ", response.data);
-      
+      toast.success("Order placed successfully!")
     } catch (error) {
-        console.error("Error creating order: ", error)
+      console.error("Error creating order: ", error);
+      toast.error("Error while placing error, please try again!");
     }
-
-
-    
   };
 
   return (
@@ -47,6 +55,7 @@ const CartPage = ({ cartItems, removeFromCart }) => {
           </div>
         )}
       </div>
+      <ToastContainer />
     </>
   );
 };

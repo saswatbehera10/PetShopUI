@@ -11,7 +11,13 @@ const PetPage = ({addToCart}) => {
 
   const fetchPets = async () => {
     try {
-      const response = await axios.get("https://localhost:7020/api/Pets");
+      const token = localStorage.getItem("token");
+      const response = await axios.get("https://localhost:7020/api/Pets",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response);
       setPets(response.data);
     } catch (error) {

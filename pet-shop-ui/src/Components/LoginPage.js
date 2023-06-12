@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import backgroundImage from "./User Components/Images/background.jpg";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -20,22 +19,23 @@ const LoginPage = () => {
 
       console.log(response.data);
 
-      const { token, roleId } = response.data;
+      const { token, expirationMinutes, role } = response.data;
 
       // Store the token, expiration, and role ID in local storage
       localStorage.setItem("token", token);
-      //localStorage.setItem("expiration", expiration);
-      localStorage.setItem("roleId", roleId);
+      localStorage.setItem("expirationMinutes", expirationMinutes);
+      localStorage.setItem("role", role);
 
       // Redirect based on role ID
-      if (roleId === 1) {
+      if (role === 1) {
         navigate("/admin/home");
-      } else if (roleId === 2) {
+      } else if (role === 2) {
         navigate("/home");
       } else {
         // Handle unknown role ID
         navigate("/login"); // Redirect to login page
       }
+      
     } catch (error) {
       // Handle login error
       console.log("Login failed", error);
@@ -43,29 +43,29 @@ const LoginPage = () => {
   };
 
   const checkTokenExpiration = () => {
-    const expiration = localStorage.getItem("expiration");
+    const expirationMinutes = localStorage.getItem("expirationMinutes");
 
-    if (expiration) {
+    if (expirationMinutes) {
       const now = new Date();
-      const expirationDate = new Date(expiration);
+      const expirationDate = new Date(expirationMinutes);
 
       if (now > expirationDate) {
         // Token has expired, perform logout or refresh token logic
         // ...
         // For example, you can clear the token, expiration, and role ID from local storage
         localStorage.removeItem("token");
-        localStorage.removeItem("expiration");
-        localStorage.removeItem("roleId");
+        localStorage.removeItem("expirationMinutes");
+        localStorage.removeItem("role");
         navigate("/login"); // Redirect to login page
       } else {
         // Token is still valid
-        const roleId = localStorage.getItem("roleId");
+        const role = localStorage.getItem("role");
 
         // Redirect based on role ID
-        if (roleId === 1) {
+        if (role === 1) {
           navigate("/admin/home");
-        } else if (roleId === 2) {
-          navigate("/user/home");
+        } else if (role === 2) {
+          navigate("/home");
         } else {
           // Handle unknown role ID
           navigate("/login"); // Redirect to login page

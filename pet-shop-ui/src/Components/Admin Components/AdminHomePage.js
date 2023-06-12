@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import "../User Components/LoginPage.css";
 import { AdminNavbar } from "./AdminNavbar";
@@ -31,6 +33,7 @@ const AdminHomePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem("token");
       // Prepare the data to be sent in the request body
       const petData = {
         name: name,
@@ -42,19 +45,27 @@ const AdminHomePage = () => {
       // Make the POST request using Axios
       const response = await axios.post(
         "https://localhost:7020/api/Pets",
-        petData
-      );
+        petData,
+       {
+         headers: {
+           Authorization: `Bearer ${token}`,
+         },
+       }
+     );
       // Handle the response as needed
       console.log("Pet added successfully!", response.data);
+
+      toast.success("Pet added successfully!");
       // Reset the form fields after submitting
       setName("");
       setSpecies("");
       setAge("");
       setPrice("");
-      setUrl("");
+      setUrl();
     } catch (error) {
       // Handle any errors that occurred during the POST request
       console.error("Error adding pet:", error);
+      toast.error("Please try again!");
     }
   };
 
@@ -129,6 +140,7 @@ const AdminHomePage = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 };

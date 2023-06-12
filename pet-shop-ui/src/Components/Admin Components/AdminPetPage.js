@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "./AdminPetPage.css";
 import { AdminNavbar } from "./AdminNavbar";
@@ -19,7 +20,12 @@ const AdminPetPage = () => {
 
   const fetchPets = async () => {
     try {
-      const response = await axios.get("https://localhost:7020/api/pets");
+      const token = localStorage.getItem("token");
+      const response = await axios.get("https://localhost:7020/api/pets", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setPets(response.data);
     } catch (error) {
       console.error("Error fetching pets:", error);
@@ -28,10 +34,17 @@ const AdminPetPage = () => {
 
   const deletePet = async (petId) => {
     try {
-      await axios.delete(`https://localhost:7020/api/pets/${petId}`);
+      const token = localStorage.getItem("token");
+      await axios.delete(`https://localhost:7020/api/pets/${petId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Pet deleted successfully!");
       fetchPets(); // Refresh the pet list after deleting
     } catch (error) {
       console.error("Error deleting pet:", error);
+      toast.error("Please try again!");
     }
   };
 
@@ -57,14 +70,22 @@ const AdminPetPage = () => {
 
   const updatePet = async () => {
     try {
+      const token = localStorage.getItem("token");
       await axios.put(
         `https://localhost:7020/api/pets/${selectedPet.petID}`,
-        updatedPetData
+        updatedPetData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+      toast.success("Pet updated successfully!");
       fetchPets(); // Refresh the pet list after updating
       closeUpdateWindow(); // Close the update window/modal
     } catch (error) {
       console.error("Error updating pet:", error);
+      toast.error("Please try again!");
     }
   };
 
@@ -182,6 +203,7 @@ const AdminPetPage = () => {
           </div>
         )}
       </div>
+      <ToastContainer />
     </>
   );
 };

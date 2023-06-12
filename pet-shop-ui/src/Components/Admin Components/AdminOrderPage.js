@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { AdminNavbar } from "./AdminNavbar";
 
@@ -10,7 +11,12 @@ const AdminOrderPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("https://localhost:7020/api/orders");
+      const token = localStorage.getItem("token");
+      const response = await axios.get("https://localhost:7020/api/orders", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -19,11 +25,18 @@ const AdminOrderPage = () => {
 
   const deleteOrder = async (orderId) => {
     try {
-      await axios.delete(`https://localhost:7020/api/orders/${orderId}`);
+      const token = localStorage.getItem("token");
+      await axios.delete(`https://localhost:7020/api/orders/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log("Order Deleted!"); // Log or handle the response as needed
+      toast.success("Order deleted successfully!");
       fetchOrders(); // Refresh the order list after deleting
     } catch (error) {
       console.error("Error deleting order:", error);
+      toast.error("Please try again!");
     }
   };
 
@@ -68,6 +81,7 @@ const AdminOrderPage = () => {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </>
   );
 };
