@@ -7,12 +7,14 @@ import CartPage from "./Components/User Components/CartPage";
 import AdminHomePage from "./Components/Admin Components/AdminHomePage";
 import AdminOrderPage from "./Components/Admin Components/AdminOrderPage";
 import AdminPetPage from "./Components/Admin Components/AdminPetPage";
+import AdminUserPage from "./Components/Admin Components/AdminUserPage";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (pet) => {
     setCartItems([...cartItems, pet]);
+    
   };
 
   const removeFromCart = (pet) => {
@@ -35,6 +37,7 @@ const App = () => {
           <Route path="/admin/home" element={<AdminHomePage />} />
           <Route path="/admin/orders" element={<AdminOrderPage />} />
           <Route path="/admin/pets" element={<AdminPetPage />} />
+          <Route path="/admin/users" element={<AdminUserPage />} />
         </Routes>
       </div>
     </Router>

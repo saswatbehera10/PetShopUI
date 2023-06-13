@@ -48,15 +48,20 @@ export const AdminNavbar = () => {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/admin/pets" className="nav-link">
+                Pets
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to="/admin/orders" className="nav-link">
                 Orders
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/admin/pets" className="nav-link">
-                Pets
+              <Link to="/admin/users" className="nav-link">
+                Users
               </Link>
-            </li>
+            </li>           
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">

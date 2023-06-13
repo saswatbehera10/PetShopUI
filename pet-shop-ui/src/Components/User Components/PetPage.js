@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import CartPage from "./CartPage";
 
 const PetPage = ({addToCart}) => {
   const [pets, setPets] = useState([]);

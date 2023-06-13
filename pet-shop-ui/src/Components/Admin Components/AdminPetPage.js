@@ -12,6 +12,7 @@ const AdminPetPage = () => {
     species: "",
     age: "",
     price: "",
+    img: "",
   });
 
   useEffect(() => {
@@ -112,6 +113,7 @@ const AdminPetPage = () => {
               <th>Species</th>
               <th>Age</th>
               <th>Price</th>
+              <th>Image</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -124,6 +126,13 @@ const AdminPetPage = () => {
                 <td>{pet.species}</td>
                 <td>{pet.age}</td>
                 <td>{pet.price}</td>
+                <td>
+                  <img
+                    src={pet.imgUrl}
+                    alt={pet.name}
+                    style={{ width: "100px", height: "100px" }}
+                  />
+                </td>
                 <td>
                   <button
                     className="btn btn-danger mr-2"

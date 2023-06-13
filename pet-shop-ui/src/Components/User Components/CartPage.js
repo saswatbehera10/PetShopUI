@@ -7,10 +7,11 @@ const CartPage = ({ cartItems, removeFromCart }) => {
   const handleCheckout = async () => {
     // Handle checkout logic
     try {
+      const userId = localStorage.getItem("userId");
       const order = {
         orderDate: new Date().toISOString,
         petID: cartItems.map((pet) => pet.petID),
-        userID: 3,
+        userID: userId,
       };
 
       const token = localStorage.getItem("token");
@@ -27,7 +28,7 @@ const CartPage = ({ cartItems, removeFromCart }) => {
       toast.success("Order placed successfully!")
     } catch (error) {
       console.error("Error creating order: ", error);
-      toast.error("Error while placing error, please try again!");
+      toast.error("Error while placing order, please try again!");
     }
   };
 
