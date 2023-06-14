@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -19,12 +20,13 @@ const LoginPage = () => {
 
       console.log(response.data);
 
-      const { token, expirationMinutes, role } = response.data;
+      const { token, expirationMinutes, role, userId } = response.data;
 
       // Store the token, expiration, and role ID in local storage
       localStorage.setItem("token", token);
       localStorage.setItem("expirationMinutes", expirationMinutes);
       localStorage.setItem("role", role);
+      localStorage.setItem("userId", userId);
 
       // Redirect based on role ID
       if (role === 1) {
@@ -35,7 +37,8 @@ const LoginPage = () => {
         // Handle unknown role ID
         navigate("/login"); // Redirect to login page
       }
-      
+      toast.success("Login Success!");
+
     } catch (error) {
       // Handle login error
       console.log("Login failed", error);
@@ -131,6 +134,7 @@ const LoginPage = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 };

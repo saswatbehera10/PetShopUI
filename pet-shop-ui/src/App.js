@@ -8,13 +8,14 @@ import AdminHomePage from "./Components/Admin Components/AdminHomePage";
 import AdminOrderPage from "./Components/Admin Components/AdminOrderPage";
 import AdminPetPage from "./Components/Admin Components/AdminPetPage";
 import AdminUserPage from "./Components/Admin Components/AdminUserPage";
+import { toast } from "react-toastify";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (pet) => {
     setCartItems([...cartItems, pet]);
-    
+    toast.success("Added to cart!")
   };
 
   const removeFromCart = (pet) => {
@@ -31,7 +32,7 @@ const App = () => {
           <Route
             path="/cart"
             element={
-              <CartPage cartItems={cartItems} removeFromCart={removeFromCart} />
+              <CartPage cartItems={cartItems} removeFromCart={removeFromCart} setCartItems={setCartItems} />
             }
           />
           <Route path="/admin/home" element={<AdminHomePage />} />

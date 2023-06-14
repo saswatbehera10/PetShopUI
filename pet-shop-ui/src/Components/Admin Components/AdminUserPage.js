@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { AdminNavbar } from "./AdminNavbar";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const AdminUserPage = () => {
   const [users, setUsers] = useState([]);
@@ -24,22 +26,37 @@ const AdminUserPage = () => {
     }
   };
 
-  const deleteUser = async (userID) => {
+  const deleteUser = (userID) => {
+    confirmAlert({
+      title: "Confirmation",
+      message: "Are you sure you want to delete this user?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => confirmDelete(userID),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+   };
+   
+   const confirmDelete = async (userID) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`https://localhost:7020/api/Users/${userID}`, {
+      await axios.delete(`https://localhost:7020/api/users/${userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("User Deleted!");
       toast.success("User deleted successfully!");
-      fetchUsers();
+      fetchUsers(); // Refresh the user list after deleting
     } catch (error) {
       console.error("Error deleting user:", error);
       toast.error("Please try again!");
     }
-  };
+   };
 
   return (
     <>

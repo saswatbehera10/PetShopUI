@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
 
 const PetPage = ({addToCart}) => {
   const [pets, setPets] = useState([]);
@@ -60,6 +61,7 @@ const PetPage = ({addToCart}) => {
           ))}
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };

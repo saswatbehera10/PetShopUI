@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import CartPage from "./CartPage";
 import { Link } from "react-router-dom";
 import "./HomePage.css";
+import { ToastContainer } from "react-toastify";
 
 const HomePage = ({ addToCart }) => {
   return (
@@ -95,6 +96,7 @@ const HomePage = ({ addToCart }) => {
         </div>
         <PetPage addToCart={addToCart} />
       </div>
+      <ToastContainer />
     </>
   );
 };

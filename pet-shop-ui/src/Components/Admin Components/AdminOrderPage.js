@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { AdminNavbar } from "./AdminNavbar";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const AdminOrderPage = () => {
   const [orders, setOrders] = useState([]);
@@ -23,7 +25,23 @@ const AdminOrderPage = () => {
     }
   };
 
-  const deleteOrder = async (orderId) => {
+  const deleteOrder = (orderId) => {
+    confirmAlert({
+      title: "Confirmation",
+      message: "Are you sure you want to delete this order?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => confirmDelete(orderId),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
+
+  const confirmDelete = async (orderId) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`https://localhost:7020/api/orders/${orderId}`, {
@@ -31,7 +49,6 @@ const AdminOrderPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Order Deleted!"); // Log or handle the response as needed
       toast.success("Order deleted successfully!");
       fetchOrders(); // Refresh the order list after deleting
     } catch (error) {

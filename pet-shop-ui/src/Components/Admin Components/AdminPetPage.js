@@ -3,6 +3,8 @@ import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "./AdminPetPage.css";
 import { AdminNavbar } from "./AdminNavbar";
+import {confirmAlert} from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const AdminPetPage = () => {
   const [pets, setPets] = useState([]);
@@ -33,7 +35,23 @@ const AdminPetPage = () => {
     }
   };
 
-  const deletePet = async (petId) => {
+  const deletePet = (petId) => {
+    confirmAlert({
+      title: "Confirmation",
+      message: "Are you sure you want to delete this pet?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => confirmDelete(petId),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
+
+  const confirmDelete = async (petId) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`https://localhost:7020/api/pets/${petId}`, {
