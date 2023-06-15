@@ -15,6 +15,7 @@ const AdminPetPage = () => {
     age: "",
     price: "",
     img: "",
+    status: "",
   });
 
   useEffect(() => {
@@ -74,6 +75,7 @@ const AdminPetPage = () => {
       species: pet.species,
       age: pet.age,
       price: pet.price,
+      status: pet.status,
     });
   };
 
@@ -84,6 +86,7 @@ const AdminPetPage = () => {
       species: "",
       age: "",
       price: "",
+      status: "",
     });
   };
 
@@ -132,6 +135,7 @@ const AdminPetPage = () => {
               <th>Age</th>
               <th>Price</th>
               <th>Image</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -151,6 +155,7 @@ const AdminPetPage = () => {
                     style={{ width: "100px", height: "100px" }}
                   />
                 </td>
+                <td>{pet.status}</td>
                 <td>
                   <button
                     className="btn btn-danger mr-2"
@@ -208,6 +213,15 @@ const AdminPetPage = () => {
                     type="text"
                     name="price"
                     value={updatedPetData.price}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Status:</label>
+                  <input
+                    type="text"
+                    name="status"
+                    value={updatedPetData.status}
                     onChange={handleInputChange}
                   />
                 </div>

@@ -8,7 +8,7 @@ import AdminHomePage from "./Components/Admin Components/AdminHomePage";
 import AdminOrderPage from "./Components/Admin Components/AdminOrderPage";
 import AdminPetPage from "./Components/Admin Components/AdminPetPage";
 import AdminUserPage from "./Components/Admin Components/AdminUserPage";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -41,6 +41,7 @@ const App = () => {
           <Route path="/admin/users" element={<AdminUserPage />} />
         </Routes>
       </div>
+      <ToastContainer />
     </Router>
   );
 };

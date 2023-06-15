@@ -10,9 +10,23 @@ const RegistrationPage = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [roleID, setRole] = useState();
+  const [formErrors, setFormErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!name || !email || !password || !phone || !roleID) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    const errors = validateForm();
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
       // Prepare the data to be sent in the request body
@@ -49,6 +63,31 @@ const RegistrationPage = () => {
     }
   };
 
+  const validateForm = () => {
+    let errors = {};
+
+    // Validate email
+    if (!email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = "Invalid email address";
+    }
+
+    // Validate password
+    if (!password) {
+      errors.password = "Password is required";
+    }
+
+    // Validate phone
+    if (!phone) {
+      errors.phone = "Phone is required";
+    } else if (!/^[0-9]{10}$/.test(phone)) {
+      errors.phone = "Invalid Phone number";
+    }
+
+    return errors;
+  };
+
   return (
     <>
       <div className="Auth-form-container">
@@ -73,12 +112,17 @@ const RegistrationPage = () => {
               <label>Email address</label>
               <input
                 type="email"
-                className="form-control mt-1"
+                className={`form-control mt-1 ${
+                  formErrors.email ? "is-invalid" : ""
+                }`}
                 placeholder="Email Address"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+               {formErrors.email && (
+                <div className="invalid-feedback">{formErrors.email}</div>
+              )}
             </div>
             <div className="form-group mt-3">
               <label>Password</label>
@@ -90,17 +134,25 @@ const RegistrationPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+               {formErrors.password && (
+                <div className="invalid-feedback">{formErrors.password}</div>
+              )}
             </div>
             <div className="form-group mt-3">
               <label>Phone</label>
               <input
                 type="text"
-                className="form-control mt-1"
+                className={`form-control mt-1 ${
+                  formErrors.phone ? "is-invalid" : ""
+                }`}
                 placeholder="90909xxxxx"
                 id="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
+               {formErrors.phone && (
+                <div className="invalid-feedback">{formErrors.phone}</div>
+              )}
             </div>
             <div className="form-group mt-3">
               <label>Role</label>

@@ -1,10 +1,13 @@
-//import React, { useState } from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { Modal, Button } from "react-bootstrap";
 
 const CartPage = ({ setCartItems, cartItems, removeFromCart }) => {
   //const [orderData, setOrderData] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [orderID, setorderID] = useState("");
 
   const handleRemoveFromCart = (pet) => {
     removeFromCart(pet);
@@ -15,11 +18,14 @@ const CartPage = ({ setCartItems, cartItems, removeFromCart }) => {
     try {
       const userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
+      const selectedPet = cartItems.length > 0 ? cartItems[0].petID : null;
+
       const Order = {
         orderDate: new Date().toISOString(),
-        petID: cartItems.length > 0 ? cartItems[0].petID : null,
+        petID: selectedPet,
         userID: userId,
       };
+      console.log(cartItems[0].name);
 
       const response = await axios.post(
         "https://localhost:7020/api/Orders",
@@ -31,13 +37,40 @@ const CartPage = ({ setCartItems, cartItems, removeFromCart }) => {
           },
         }
       );
+
+      // Update the pet's status to "Booked"
+      await axios.put(
+        `https://localhost:7020/api/Pets/${Order.petID}`,
+        {
+          name: cartItems[0].name,
+          age: cartItems[0].age,
+          species: cartItems[0].species,
+          price: cartItems[0].price,
+          status: "Booked",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       console.log("Order Created: ", response.data);
       toast.success("Order placed successfully!");
-      setCartItems([])
+
+      setorderID(response.data.orderID);
+      setShowModal(true);
+
+      setCartItems([]);
     } catch (error) {
       console.error("Error creating order: ", error);
       toast.error("Error while placing order, please try again!");
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setorderID("");
   };
 
   return (
@@ -77,6 +110,29 @@ const CartPage = ({ setCartItems, cartItems, removeFromCart }) => {
           </div>
         )}
       </div>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Order Placed Successfully</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            Your order has been placed successfully. Please note down your order
+            ID for future reference.
+          </p>
+          <p>Order ID: {orderID}</p>
+          <p>
+            You will soon receive an email for the meet and greet session and
+            exchanging of the pet.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <ToastContainer />
     </>
   );

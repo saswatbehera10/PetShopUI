@@ -12,6 +12,7 @@ const AdminHomePage = () => {
   const [price, setPrice] = useState("");
   const [url, setUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [errors, setErrors] = useState("");
 
   useEffect(() => {
     console.log("Image URL:", imageUrl);
@@ -32,41 +33,81 @@ const AdminHomePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const token = localStorage.getItem("token");
-      // Prepare the data to be sent in the request body
-      const petData = {
-        name: name,
-        species: species,
-        age: age,
-        price: price,
-        imgUrl: url,
-      };
-      // Make the POST request using Axios
-      const response = await axios.post(
-        "https://localhost:7020/api/Pets",
-        petData,
-       {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       }
-     );
-      // Handle the response as needed
-      console.log("Pet added successfully!", response.data);
+    if (validateForm()) {
+      try {
+        const token = localStorage.getItem("token");
+        // Prepare the data to be sent in the request body
+        const petData = {
+          name: name,
+          species: species,
+          age: age,
+          price: price,
+          imgUrl: url,
+        };
+        // Make the POST request using Axios
+        const response = await axios.post(
+          "https://localhost:7020/api/Pets",
+          petData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        // Handle the response as needed
+        console.log("Pet added successfully!", response.data);
 
-      toast.success("Pet added successfully!");
-      // Reset the form fields after submitting
-      setName("");
-      setSpecies("");
-      setAge("");
-      setPrice("");
-      setUrl();
-    } catch (error) {
-      // Handle any errors that occurred during the POST request
-      console.error("Error adding pet:", error);
-      toast.error("Please try again!");
+        toast.success("Pet added successfully!");
+        // Reset the form fields after submitting
+        resetForm();
+      } catch (error) {
+        // Handle any errors that occurred during the POST request
+        console.error("Error adding pet:", error);
+        toast.error("Please try again!");
+      }
     }
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const errors = {};
+
+    if (name.trim() === "") {
+      errors.name = "Name is required";
+      isValid = false;
+    }
+
+    if (species.trim() === "") {
+      errors.species = "Species is required";
+      isValid = false;
+    }
+
+    if (age.trim() === "") {
+      errors.age = "Age is required";
+      isValid = false;
+    } else if (isNaN(age) || Number(age) <= 0) {
+      errors.age = "Age must be a positive number";
+      isValid = false;
+    }
+
+    if (price.trim() === "") {
+      errors.price = "Price is required";
+      isValid = false;
+    } else if (isNaN(price) || Number(price) <= 0) {
+      errors.price = "Price must be a positive number";
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
+
+  const resetForm = () => {
+    setName("");
+    setSpecies("");
+    setAge("");
+    setPrice("");
+    setUrl("");
   };
 
   return (
@@ -85,6 +126,7 @@ const AdminHomePage = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+              {errors.name && <div className="text-danger">{errors.name}</div>}
             </div>
             <div className="form-group mt-3">
               <label>Species:</label>
@@ -95,6 +137,7 @@ const AdminHomePage = () => {
                 value={species}
                 onChange={(e) => setSpecies(e.target.value)}
               />
+              {errors.species && <div className="text-danger">{errors.species}</div>}
             </div>
             <div className="form-group mt-3">
               <label>Age:</label>
@@ -105,6 +148,7 @@ const AdminHomePage = () => {
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
               />
+              {errors.age && <div className="text-danger">{errors.age}</div>}
             </div>
             <div className="form-group mt-3">
               <label>Price:</label>
@@ -115,6 +159,7 @@ const AdminHomePage = () => {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
+              {errors.price && <div className="text-danger">{errors.price}</div>}
             </div>
             <div className="form-group mt-3">
               <label>Image:</label>
