@@ -157,7 +157,7 @@ const RegistrationPage = () => {
             <div className="form-group mt-3">
               <label>Role</label>
               <div>
-                <label className="mr-3">
+                {/* <label className="mr-3">
                   <input
                     type="radio"
                     name="roleID"
@@ -167,7 +167,7 @@ const RegistrationPage = () => {
                   />
                   Admin
                 </label>
-                <br />
+                <br /> */}
                 <label>
                   <input
                     type="radio"
