@@ -4,13 +4,14 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Modal, Button } from "react-bootstrap";
 
-const CartPage = ({ setCartItems, cartItems, removeFromCart }) => {
+const CartPage = ({ setCartItems, cartItems, removeFromCart, clearCart }) => {
   //const [orderData, setOrderData] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [orderID, setorderID] = useState("");
 
   const handleRemoveFromCart = (pet) => {
     removeFromCart(pet);
+    clearCart();
   };
 
   const handleCheckout = async () => {

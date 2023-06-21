@@ -108,6 +108,8 @@ const AdminHomePage = () => {
     setAge("");
     setPrice("");
     setUrl("");
+    setImageUrl("");
+    document.getElementById("image").value="";
   };
 
   return (
@@ -172,6 +174,7 @@ const AdminHomePage = () => {
               /> */}
               <input
                 type="file"
+                id="image"
                 accept="image/*"
                 onChange={handleImageUpload}
                 className="form-control mt-1"

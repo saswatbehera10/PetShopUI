@@ -14,13 +14,21 @@ const App = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (pet) => {
-    setCartItems([...cartItems, pet]);
-    toast.success("Added to cart!")
+    if (cartItems.length === 1) {
+      toast.error("Your cart is already full. Please checkout first.");
+    } else {
+      setCartItems([...cartItems, pet]);
+      toast.success("Added to cart!");
+    }
   };
 
   const removeFromCart = (pet) => {
     setCartItems([cartItems.filter((item) => item.petID !== pet.petID)]);
   };
+
+  const clearCart = () => {
+    setCartItems([]);
+  }
   return (
     <Router>
       <div>
@@ -32,7 +40,7 @@ const App = () => {
           <Route
             path="/cart"
             element={
-              <CartPage cartItems={cartItems} removeFromCart={removeFromCart} setCartItems={setCartItems} />
+              <CartPage cartItems={cartItems} removeFromCart={removeFromCart} setCartItems={setCartItems} clearCart={clearCart} />
             }
           />
           <Route path="/admin/home" element={<AdminHomePage />} />
