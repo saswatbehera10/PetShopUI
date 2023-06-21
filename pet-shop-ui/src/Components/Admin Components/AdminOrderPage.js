@@ -81,7 +81,7 @@ const AdminOrderPage = () => {
               <tr key={order.orderID}>
                 <td>{index + 1}</td>
                 <td>{order.orderID}</td>
-                <td>{order.orderDate}</td>
+                <td>{order.orderDate.substring(0, 10)}</td>
                 <td>{order.petID}</td>
                 <td>{order.pet.name}</td>
                 <td>{order.user.name}</td>
