@@ -1,6 +1,8 @@
 
 # PetShopUI
-Github link to backend code:  
+The Pet Adoption Platform is a user-friendly web-based application that simplifies the pet adoption process by connecting potential pet owners with adoptable pets. Pet shop owners (Admin) can publish detailed information about each pet, including breed, age, and photos, allowing users to search based on preferences.      
+
+Github link to backend code:      
 https://github.com/saswatbehera10/PetShop  
 
 This project is build using ASP.NET Core WEBAPI, Entity Framework, React.Js.  
